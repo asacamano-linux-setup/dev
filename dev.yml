@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: Set up dev tools
+      include_tasks: "{{ item }}"
+      loop:
+        - conda.yml
+        - mercurial.yml
+        - bazel.yml
+

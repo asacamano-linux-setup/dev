@@ -1,2 +1,3 @@
 # dev
-Set of core dev tools
+
+A simple set of core dev tools.

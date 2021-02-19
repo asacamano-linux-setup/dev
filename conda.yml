@@ -1,0 +1,42 @@
+- name: Make .sync/dev directory
+  file:
+    path: "{{ target_home }}/.sync/dev"
+    state: directory
+    owner:  "{{ target_user }}"
+    group:  "{{ target_group }}"
+    mode: 0750
+
+- name: Download Conda installer
+  get_url:
+    url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    checksum: sha256:1314b90489f154602fd794accfc90446111514a5a72fe1f71ab83e07de9504a7
+    dest: "{{ target_home }}/.sync/dev/Miniconda3-latest-Linux-x86_64.sh"
+    owner: "{{ target_user }}"
+    group: "{{ target_group }}"
+    mode: "0744"
+
+- name: Install Conda
+  become_user: "{{ target_user }}"
+  shell: "{{ target_home }}/.sync/dev/Miniconda3-latest-Linux-x86_64.sh -f -b && touch {{ target_home }}/.sync/dev/conda-installed"
+  args:
+    creates: "{{ target_home }}/.sync/dev/conda-installed"
+
+- name: Conda bash path
+  blockinfile:
+    create: true
+    dest: "{{ target_home }}/.bash_aliases"
+    owner:  "{{ target_user }}"
+    group:  "{{ target_group }}"
+    mode: 0440
+    backup: true
+    marker_begin: Miniconda path
+    marker_end: End Miniconda path
+    block: |
+      export PATH="{{ target_home }}/miniconda3/bin:${PATH}"
+
+- name: Conda py 2.7
+  become_user: "{{ target_user }}"
+  shell: "{{ target_home }}/miniconda3/bin/conda create --yes --name py2 python=2.7 && touch {{ target_home }}/.sync/dev/conda-27-installed"
+  args:
+    creates: "{{ target_home }}/.sync/dev/conda-27-installed"
+

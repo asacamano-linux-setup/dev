@@ -1,0 +1,14 @@
+- name: Install mercurial
+  become_user: "{{ target_user }}"
+  shell: "{{ target_home }}/miniconda3/bin/conda install --yes --name py2 mercurial && touch {{ target_home }}/.sync/dev/mercurial-installed"
+  args:
+    creates: "{{ target_home }}/.sync/dev/mercurial-installed"
+
+- name: Install mercurial-git
+  become_user: "{{ target_user }}"
+  shell: "{{ target_home }}/miniconda3/bin/conda install --yes --name py2 -c conda-forge hg-git && touch {{ target_home }}/.sync/dev/hg-git-installed"
+  args:
+    creates: "{{ target_home }}/.sync/dev/hg-git-installed"
+
+
+
