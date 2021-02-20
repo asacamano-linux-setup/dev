@@ -21,18 +21,9 @@
   args:
     creates: "{{ target_home }}/.sync/dev/conda-installed"
 
-- name: Conda bash path
-  blockinfile:
-    create: true
-    dest: "{{ target_home }}/.bash_aliases"
-    owner:  "{{ target_user }}"
-    group:  "{{ target_group }}"
-    mode: 0440
-    backup: true
-    marker_begin: Miniconda path
-    marker_end: End Miniconda path
-    block: |
-      export PATH="{{ target_home }}/miniconda3/bin:${PATH}"
+- name: Install Conda Bash
+  become_user: "{{ target_user }}"
+  shell: "{{ target_home }}/miniconda3/condabin/conda init bash"
 
 - name: Conda py 2.7
   become_user: "{{ target_user }}"
