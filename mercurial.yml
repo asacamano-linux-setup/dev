@@ -43,3 +43,18 @@
     option: hgext.bookmarks
     value: ""
  
+- name: .hgrc verbose
+  ini_file:
+    path: "{{ target_home }}/.hgrc"
+    backup: true
+    section: ui
+    option: verbose
+    value: "true"
+ 
+- name: .hgrc username
+  ini_file:
+    path: "{{ target_home }}/.hgrc"
+    backup: true
+    section: ui
+    option: username
+    value: "{{ target_git_name }} <{{ target_git_email }}>"
