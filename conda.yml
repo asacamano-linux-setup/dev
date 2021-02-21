@@ -8,26 +8,19 @@
 
 - name: Download Conda installer
   get_url:
-    url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    checksum: sha256:1314b90489f154602fd794accfc90446111514a5a72fe1f71ab83e07de9504a7
-    dest: "{{ target_home }}/.sync/dev/Miniconda3-latest-Linux-x86_64.sh"
+    url: https://repo.anaconda.com/miniconda/Miniconda2-latest-Linux-x86_64.sh
+    checksum: sha256:b820dde1a0ba868c4c948fe6ace7300a252b33b5befd078a15d4a017476b8979
+    dest: "{{ target_home }}/.sync/dev/Miniconda2-latest-Linux-x86_64.sh"
     owner: "{{ target_user }}"
     group: "{{ target_group }}"
     mode: "0744"
 
 - name: Install Conda
   become_user: "{{ target_user }}"
-  shell: "{{ target_home }}/.sync/dev/Miniconda3-latest-Linux-x86_64.sh -f -b && touch {{ target_home }}/.sync/dev/conda-installed"
+  shell: "{{ target_home }}/.sync/dev/Miniconda2-latest-Linux-x86_64.sh -f -b && touch {{ target_home }}/.sync/dev/conda-installed"
   args:
     creates: "{{ target_home }}/.sync/dev/conda-installed"
 
 - name: Install Conda Bash
   become_user: "{{ target_user }}"
-  shell: "{{ target_home }}/miniconda3/condabin/conda init bash"
-
-- name: Conda py 2.7
-  become_user: "{{ target_user }}"
-  shell: "{{ target_home }}/miniconda3/bin/conda create --yes --name py2 python=2.7 && touch {{ target_home }}/.sync/dev/conda-27-installed"
-  args:
-    creates: "{{ target_home }}/.sync/dev/conda-27-installed"
-
+  shell: "{{ target_home }}/miniconda2/condabin/conda init bash"

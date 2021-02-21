@@ -1,23 +1,23 @@
 - name: Install mercurial
   become_user: "{{ target_user }}"
-  shell: "{{ target_home }}/miniconda3/condabin/conda install --yes --name py2 mercurial && touch {{ target_home }}/.sync/dev/mercurial-installed"
+  shell: "{{ target_home }}/miniconda2/condabin/conda install --yes mercurial && touch {{ target_home }}/.sync/dev/mercurial-installed"
   args:
     creates: "{{ target_home }}/.sync/dev/mercurial-installed"
 
 - name: Install mercurial-git
   become_user: "{{ target_user }}"
-  shell: "{{ target_home }}/miniconda3/condabin/conda install --yes --name py2 -c conda-forge hg-git && touch {{ target_home }}/.sync/dev/hg-git-installed"
+  shell: "{{ target_home }}/miniconda2/condabin/conda install --yes -c conda-forge hg-git && touch {{ target_home }}/.sync/dev/hg-git-installed"
   args:
     creates: "{{ target_home }}/.sync/dev/hg-git-installed"
 
 - name: Install dulwich
   become_user: "{{ target_user }}"
-  shell: "{{ target_home }}/miniconda3/condabin/conda install --yes --name py2 dulwich && touch {{ target_home }}/.sync/dev/dulwich-installed"
+  shell: "{{ target_home }}/miniconda2/condabin/conda install --yes dulwich && touch {{ target_home }}/.sync/dev/dulwich-installed"
   args:
     creates: "{{ target_home }}/.sync/dev/dulwich-installed"
 
 - name: where is hg-git
-  shell: "{{ target_home }}/miniconda3/condabin/conda list --name py2 | grep hg-git | awk '{print $1\"-\"$2\"-\"$3}'"
+  shell: "{{ target_home }}/miniconda2/condabin/conda list | grep hg-git | awk '{print $1\"-\"$2\"-\"$3}'"
   register: hggitwhere
 
 - set_fact: 
@@ -33,7 +33,7 @@
     backup: true
     section: extensions
     option: hggit
-    value: "{{ target_home }}/miniconda3/pkgs/{{ hggitpath }}/site-packages/hggit"
+    value: "{{ target_home }}/miniconda2/pkgs/{{ hggitpath }}/site-packages/hggit"
  
 - name: .hgrc bookmarks
   ini_file:
