@@ -43,6 +43,46 @@
     option: hgext.bookmarks
     value: ""
  
+- name: .hgrc amend
+  ini_file:
+    path: "{{ target_home }}/.hgrc"
+    backup: true
+    section: extensions
+    option: amend
+    value: ""
+ 
+- name: .hgrc automv
+  ini_file:
+    path: "{{ target_home }}/.hgrc"
+    backup: true
+    section: extensions
+    option: automv
+    value: ""
+ 
+- name: .hgrc rebase
+  ini_file:
+    path: "{{ target_home }}/.hgrc"
+    backup: true
+    section: extensions
+    option: rebase
+    value: ""
+ 
+- name: .hgrc split
+  ini_file:
+    path: "{{ target_home }}/.hgrc"
+    backup: true
+    section: extensions
+    option: split
+    value: ""
+ 
+- name: .hgrc beautifygraph
+  ini_file:
+    path: "{{ target_home }}/.hgrc"
+    backup: true
+    section: extensions
+    option: beautifygraph
+    value: ""
+ 
 - name: .hgrc verbose
   ini_file:
     path: "{{ target_home }}/.hgrc"
