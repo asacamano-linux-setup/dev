@@ -17,10 +17,12 @@
 
 - name: Install Conda
   become_user: "{{ target_user }}"
-  shell: "{{ target_home }}/.sync/dev/Miniconda2-latest-Linux-x86_64.sh -f -b && touch {{ target_home }}/.sync/dev/conda-installed"
+  shell: "{{ target_home }}/.sync/dev/Miniconda2-latest-Linux-x86_64.sh -f -b && touch {{ target_home }}/.sync/dev/conda2-installed"
   args:
-    creates: "{{ target_home }}/.sync/dev/conda-installed"
+    creates: "{{ target_home }}/.sync/dev/conda2-installed"
 
 - name: Install Conda Bash
   become_user: "{{ target_user }}"
-  shell: "{{ target_home }}/miniconda2/condabin/conda init bash"
+  shell: "{{ target_home }}/miniconda2/condabin/conda init bash && touch {{ target_home }}/.sync/dev/conda2-bash-setup"
+  args:
+    creates: "{{ target_home }}/.sync/dev/conda2-bash-setup"
