@@ -97,4 +97,4 @@
     backup: true
     section: ui
     option: username
-    value: "{{ target_git_name }} <{{ target_git_email }}>"
+    value: "{{ lookup('ansible.builtin.env', 'GIT_NAME', default='nobody') }} <{{ lookup('ansible.builtin.env', 'GIT_EMAIL', default='nobody@nowhere.edu') }}>"
