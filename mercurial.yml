@@ -1,23 +1,26 @@
 - name: Install mercurial
   become_user: "{{ target_user }}"
-  shell: "{{ target_home }}/miniconda2/condabin/conda install --yes mercurial && touch {{ target_home }}/.sync/dev/mercurial-installed"
+  shell: "/root/miniconda3/condabin/conda install --yes mercurial && touch {{ target_home }}/.sync/dev/mercurial-installed"
   args:
     creates: "{{ target_home }}/.sync/dev/mercurial-installed"
+  when: ansible_facts['architecture'] == "x86_64"
 
 - name: Install mercurial-git
   become_user: "{{ target_user }}"
-  shell: "{{ target_home }}/miniconda2/condabin/conda install --yes -c conda-forge hg-git && touch {{ target_home }}/.sync/dev/hg-git-installed"
+  shell: "/root/miniconda3/condabin/conda install --yes -c conda-forge hg-git && touch {{ target_home }}/.sync/dev/hg-git-installed"
   args:
     creates: "{{ target_home }}/.sync/dev/hg-git-installed"
+  when: ansible_facts['architecture'] == "x86_64"
 
 - name: Install dulwich
   become_user: "{{ target_user }}"
-  shell: "{{ target_home }}/miniconda2/condabin/conda install --yes dulwich && touch {{ target_home }}/.sync/dev/dulwich-installed"
+  shell: "/root/miniconda3/condabin/conda install --yes dulwich && touch {{ target_home }}/.sync/dev/dulwich-installed"
   args:
     creates: "{{ target_home }}/.sync/dev/dulwich-installed"
+  when: ansible_facts['architecture'] == "x86_64"
 
 - name: where is hg-git
-  shell: "{{ target_home }}/miniconda2/condabin/conda list | grep hg-git | awk '{print $1\"-\"$2\"-\"$3}'"
+  shell: "/root/miniconda3/condabin/conda list | grep hg-git | awk '{print $1\"-\"$2\"-\"$3}'"
   register: hggitwhere
 
 - set_fact: 
@@ -33,7 +36,7 @@
     backup: true
     section: extensions
     option: hggit
-    value: "{{ target_home }}/miniconda2/pkgs/{{ hggitpath }}/site-packages/hggit"
+    value: "/root/miniconda3/pkgs/{{ hggitpath }}/site-packages/hggit"
  
 - name: .hgrc bookmarks
   ini_file:

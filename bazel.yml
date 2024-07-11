@@ -4,15 +4,18 @@
     url: https://bazel.build/bazel-release.pub.gpg
     id: 71A1D0EFCFEB6281FD0437C93D5919B448457EE0
     state: present
+  when: ansible_facts['architecture'] == "x86_64"
 
 - name: Add apt repo
   when: ansible_distribution == 'Ubuntu'
   apt_repository:
     repo: deb https://storage.googleapis.com/bazel-apt stable jdk1.8
     state: present
+  when: ansible_facts['architecture'] == "x86_64"
 
 - name: Install bazel
   when: ansible_distribution == 'Ubuntu'
   package:
     name: bazel
     state: present
+  when: ansible_facts['architecture'] == "x86_64"

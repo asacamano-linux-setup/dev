@@ -6,6 +6,10 @@
     group:  "{{ target_group }}"
     mode: 0750
 
+- name: Check facts
+  debug:
+    msg: "{{ansible_facts}}"
+      
 - name: Download Conda installer
   get_url:
     url: https://repo.anaconda.com/miniconda/Miniconda2-latest-Linux-x86_64.sh
@@ -14,15 +18,43 @@
     owner: "{{ target_user }}"
     group: "{{ target_group }}"
     mode: "0744"
+  when: ansible_facts['architecture'] == "x86_64"
 
 - name: Install Conda
   become_user: "{{ target_user }}"
   shell: "{{ target_home }}/.sync/dev/Miniconda2-latest-Linux-x86_64.sh -f -b && touch {{ target_home }}/.sync/dev/conda2-installed"
   args:
     creates: "{{ target_home }}/.sync/dev/conda2-installed"
+  when: ansible_facts['architecture'] == "x86_64"
 
 - name: Install Conda Bash
   become_user: "{{ target_user }}"
   shell: "{{ target_home }}/miniconda2/condabin/conda init bash && touch {{ target_home }}/.sync/dev/conda2-bash-setup"
   args:
     creates: "{{ target_home }}/.sync/dev/conda2-bash-setup"
+  when: ansible_facts['architecture'] == "x86_64"
+
+- name: Download Conda installer ARM64
+  get_url:
+    url: https://repo.anaconda.com/miniconda/Miniconda3-py312_24.5.0-0-Linux-aarch64.sh
+    checksum: sha256:70afe954cc8ee91f605f9aa48985bfe01ecfc10751339e8245eac7262b01298d
+    dest: "{{ target_home }}/.sync/dev/Miniconda2-py312_24.5.0-0-Linux-aarch64.sh"
+    owner: "{{ target_user }}"
+    group: "{{ target_group }}"
+    mode: "0744"
+  when: ansible_facts['architecture'] == "aarch64"
+
+- name: Install Conda ARM64
+  become_user: "{{ target_user }}"
+  shell: "{{ target_home }}/.sync/dev/Miniconda2-py312_24.5.0-0-Linux-aarch64.sh -f -b && touch {{ target_home }}/.sync/dev/conda3-installed"
+  args:
+    creates: "{{ target_home }}/.sync/dev/conda3-installed"
+  when: ansible_facts['architecture'] == "aarch64"
+
+- name: Install Conda Bash ARM64
+  become_user: "{{ target_user }}"
+  shell: "/root/miniconda3/condabin/conda init bash && touch {{ target_home }}/.sync/dev/conda3-bash-setup"
+  args:
+    creates: "{{ target_home }}/.sync/dev/conda3-bash-setup"
+  when: ansible_facts['architecture'] == "aarch64"
+
