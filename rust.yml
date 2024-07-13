@@ -1,0 +1,21 @@
+- name: Make .sync/dev directory
+  file:
+    path: "{{ target_home }}/.sync/dev"
+    state: directory
+    owner:  "{{ target_user }}"
+    group:  "{{ target_group }}"
+    mode: 0750
+
+- name: Download Rust installer
+  get_url:
+    url: https://sh.rustup.rs
+    dest: "{{ target_home }}/.sync/dev/install-rust.sh"
+    owner: "{{ target_user }}"
+    group: "{{ target_group }}"
+    mode: "0744"
+
+- name: Install Rust
+  become_user: "{{ target_user }}"
+  shell: "{{ target_home }}/.sync/dev/install-rust.sh -y && touch {{ target_home }}/.sync/dev/rust-setup"
+  args:
+    creates: "{{ target_home }}/.sync/dev/rust-setup"

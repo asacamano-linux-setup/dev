@@ -1,0 +1,25 @@
+- name: Make .sync/dev directory
+  file:
+    path: "{{ target_home }}/.sync/dev"
+    state: directory
+    owner:  "{{ target_user }}"
+    group:  "{{ target_group }}"
+    mode: 0750
+
+- name: Download Lean installer
+  get_url:
+    url: https://raw.githubusercontent.com/leanprover-community/mathlib4/master/scripts/install_debian.sh 
+    dest: "{{ target_home }}/.sync/dev/lean-install-debian.sh"
+    owner: "{{ target_user }}"
+    group: "{{ target_group }}"
+    mode: "0744"
+
+- name: Install Lean
+  become: yes
+  become_user: "{{ target_user }}"
+  become_method: sudo
+  # TODO(someday) stop using sudo it it become ever works in userland. But for now, the lean installer tries to setup
+  # VS Code as root, which it really doesn't like.
+  shell: "sudo -u {{target_user}} {{ target_home }}/.sync/dev/lean-install-debian.sh && touch {{ target_home }}/.sync/dev/lean-setup"
+  args:
+    creates: "{{ target_home }}/.sync/dev/lean-setup"

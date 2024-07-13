@@ -8,4 +8,7 @@
         - conda.yml
         - mercurial.yml
         - bazel.yml
+        - vscode.yml
+        - lean.yml
+        - rust.yml
 
