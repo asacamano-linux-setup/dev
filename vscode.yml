@@ -10,3 +10,8 @@
   package:
     name: code
     state: present
+
+- name: Alias to start the server
+  lineinfile:
+    path: "{{ target_home }}/.bash_aliases"
+    line: "alias codeweb=\"code serve-web --without-connection-token --host 127.0.0.1\""
