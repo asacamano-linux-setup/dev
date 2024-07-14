@@ -10,5 +10,6 @@
         - bazel.yml
         - vscode.yml
         - lean.yml
+        - gcc.yml
         - rust.yml
 
