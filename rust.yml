@@ -16,6 +16,8 @@
 
 - name: Install Rust
   become_user: "{{ target_user }}"
-  shell: "{{ target_home }}/.sync/dev/install-rust.sh -y && touch {{ target_home }}/.sync/dev/rust-setup"
+  # TODO(someday) stop using sudo it it become ever works in userland. But for now, the lean installer tries to setup
+  # VS Code as root, which it really doesn't like.
+  shell: "sudo -u {{target_user}} {{ target_home }}/.sync/dev/install-rust.sh -y && touch {{ target_home }}/.sync/dev/rust-setup"
   args:
     creates: "{{ target_home }}/.sync/dev/rust-setup"
